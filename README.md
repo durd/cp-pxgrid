@@ -1,4 +1,20 @@
 # cp-pxgrid
+- [cp-pxgrid](#cp-pxgrid)
+  * [Overview](#overview)
+  * [Project implementation](#project-implementation)
+    + [`session_subscribe.cp.py`](#-session-subscribecppy-)
+    + [`session_query_all.cp.py`](#-session-query-allcppy-)
+    + [`session_query_reboot.cp.py`](#-session-query-rebootcppy-)
+    + [Firewall reload](#firewall-reload)
+    + [cp-pxgrid High Availablity](#cp-pxgrid-high-availablity)
+    + [Logging](#logging)
+    + [Shortcomings](#shortcomings)
+      - [pxGrid](#pxgrid)
+      - [Check Point](#check-point)
+  * [pxGrid 'state' attribute](#pxgrid--state--attribute)
+- [Credit](#credit)
+- [pxGrid](#pxgrid-1)
+
 ## Overview
 cp-pxgrid is a client implementation of Cisco's [pxGrid](https://developer.cisco.com/docs/pxgrid/#!learning-pxgrid) Security Product Integration Framework (SPIF) that subscribes and reads from pxGrid and sends via API identity information to Check Point firewalls. This is done so that user or machine identities from Cisco ISE can be used in firewall rules using Check Point [Identity Awareness](https://www.checkpoint.com/products/identity-awareness/).
 
