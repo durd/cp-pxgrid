@@ -1,0 +1,46 @@
+{
+  "adHostDomainName": "domain.tld"
+  "adHostNetBiosName": "DOMAIN"
+  "adHostQualifiedName": "computer$@domain.tld"
+  "adHostResolvedDns": "CN=computer,OU=Computers,OU=DOMAIN,DC=domain,DC=tld"
+  "adHostResolvedIdentities": "computer$@domain.tld"
+  "adHostSamAccountName": "computer$"
+  "adNormalizedUser": "computer.domain.tld"
+  "adUserQualifiedName": "JohnDoe@domain.tld"
+  "adUserSamAccountName": "JohnDoe"
+  "auditSessionId": "000000000000000000000000"
+  "calledStationId": "00-00-00-00-00-00"
+  "callingStationId": "10:10:10:10:10:10"
+  "ctsSecurityGroup": "SGT_NAME"
+  "endpointCheckResult": "none"
+  "endpointOperatingSystem": "Windows 10 Enterprise"
+  "endpointProfile": "Windows10-Workstation"
+  "identitySourcePortEnd": 0
+  "identitySourcePortFirst": 0
+  "identitySourcePortStart": 0
+  "ipAddresses": [
+    "10.10.10.10"
+    "fe80::0000:1111:2222:3333"
+  ]
+  "isMachineAuthentication": "true"
+  "macAddress": "10:10:10:10:10:10"
+  "mdmCompliant": false
+  "mdmDiskEncrypted": false
+  "mdmJailBroken": false
+  "mdmPinLocked": false
+  "mdmRegistered": false
+  "nasIdentifier": "switch-1"
+  "nasIpAddress": "10.0.0.1"
+  "nasPortId": "GigabitEthernet1/0/5"
+  "nasPortType": "Ethernet"
+  "networkDeviceProfileName": "Cisco"
+  "providers": [
+      "None"
+  ]
+  "radiusFlowType": "Wired802_1x"
+  "serviceType": "Framed"
+  "ssid": "00-00-00-00-00-00"
+  "state": "STARTED"
+  "timestamp": "2020-04-11T18:24:20.637+02:00"
+  "userName": "computer.domain.tld"
+}
