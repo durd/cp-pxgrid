@@ -48,12 +48,12 @@ Therefore, this project can be run on 2 or more servers without any synchronisat
 All scripts log to syslog under their own programnames for the sake of rsyslogd. There are different loglevels, but all logs can be customised in the scripts.  
 An example of sorting the programname to a specific logfile is included. Also included is configuration file for logrotate.
 
-### Shortcomings
-#### pxGrid
+## Shortcomings
+### pxGrid
 There are a few shortcomings of pxGrid, for example no session timeout is publised along with the data. This makes it hard to create a timeout of the identity session on the firewall and created the need for `session_query_all.cp.py`. There are implementations that create their own database containing identities received on pxGrid. Based on the time received, the software queries ISE for that particular IP to see if ISE still has a session for it or not. This specific implementation was out of scope for this project and therefore not implemented. It could potentially have smoothed out the periodic gathering of updated sessions, but was deemed not enough.  
 MQTT would maybe have been a better choice of message broker as it allows for buffering of messages to ensure all subscribers receive the same information, it would have alleviated the need for both `session_query_all.cp.py` and `session_query_reboot.cp.py`. Iirc this is called [MQTT QoS](http://www.steves-internet-guide.com/understanding-mqtt-qos-levels-part-1/), not to be confused with network [QoS](https://en.wikipedia.org/wiki/Quality_of_service).
 
-#### Check Point 
+### Check Point 
 Another shortcoming is Check Points Identity Awareness API, that it does not support a `session-timeout` of `0` to account for ISE by default not having a timeout on active sessions. There is a reason for this of course, and I can see that having `0` is practically unlimited. If there for some reason is no `DISCONNECT` that would clear that session, this could expend memory the firewall could use for its connection table instead.
 
 ## pxGrid 'state' attribute
