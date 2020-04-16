@@ -34,7 +34,7 @@ When the above script is running with ~300 klients on a WIFI network, CPU-usage 
 Is run by default every 8th hour by CRON. It collects by default the last 9 hours of created and updated sessions from ISE so that there is an overlap. This script actually keeps the identity sessions on the firewall active and extends the sessions timeout everytime it is run, unless a session is removed of course.
 
 ### `session_query_reboot.cp.py`
-The most CPU intensive script is `session_query_reboot.cp.py` which is supposed to be run at server startup or reboot. The script downloads the complete session database from ISE. This is so because it is unknown for how long the server reboots for or is stopped for maintenance or downtime. Typically run on the same server as above, CPU usage is ~21% and runs for ~4s.
+The most CPU intensive script is `session_query_reboot.cp.py` which is supposed to be run at server startup or reboot. The script downloads the complete session database from ISE. This is so because it is unknown for how long the server reboots for or is stopped for maintenance or downtime. Typically run on the same server as above, CPU usage is ~21% and runs for ~4s as measured with the `time` command on Linux.
 
 ### Firewall reload
 No consideration has actually been taken to the inevitablity of a firewall reloading. Even firewalls in active/active or active/standby configuration might die because of hardware failure, power outage or simple a bug in software.  
@@ -53,7 +53,7 @@ An example of sorting the programname to a specific logfile is included. Also in
 There are a few shortcomings of pxGrid, for example no session timeout is publised along with the data. This makes it hard to create a timeout of the identity session on the firewall and created the need for `session_query_all.cp.py`. There are implementations that create their own database containing identities received on pxGrid. Based on the time received, the software queries ISE for that particular IP to see if ISE still has a session for it or not. This specific implementation was out of scope for this project and therefore not implemented. It could potentially have smoothed out the periodic gathering of updated sessions, but was deemed not enough.  
 MQTT would maybe have been a better choice of message broker as it allows for buffering of messages to ensure all subscribers receive the same information, it would have alleviated the need for both `session_query_all.cp.py` and `session_query_reboot.cp.py`. Iirc this is called [MQTT QoS](http://www.steves-internet-guide.com/understanding-mqtt-qos-levels-part-1/), not to be confused with network [QoS](https://en.wikipedia.org/wiki/Quality_of_service).
 
-### Check Point 
+### Check Point
 Another shortcoming is Check Points Identity Awareness API, that it does not support a `session-timeout` of `0` to account for ISE by default not having a timeout on active sessions. There is a reason for this of course, and I can see that having `0` is practically unlimited. If there for some reason is no `DISCONNECT` that would clear that session, this could expend memory the firewall could use for its connection table instead.
 
 ## pxGrid 'state' attribute
