@@ -2,9 +2,9 @@
 - [cp-pxgrid](#cp-pxgrid)
   * [Overview](#overview)
   * [Project implementation](#project-implementation)
-    + [`session_subscribe.cp.py`](#session_subscribecppy)
-    + [`session_query_all.cp.py`](#session_query_allcppy)
-    + [`session_query_reboot.cp.py`](#session_query_rebootcppy)
+    + [session_subscribe.cp.py](#session_subscribecppy)
+    + [session_query_all.cp.py](#session_query_allcppy)
+    + [session_query_reboot.cp.py](#session_query_rebootcppy)
     + [Firewall reload](#firewall-reload)
     + [cp-pxgrid High Availablity](#cp-pxgrid-high-availablity)
     + [Logging](#logging)
@@ -27,13 +27,13 @@ cp-pxgrid is implemented using [Python](https://www.python.org/) and several Pyt
 
 [Cisco ISE](https://www.cisco.com/c/en/us/products/security/identity-services-engine/index.html) is configured with no reauthentication as recommended by Cisco, probably because overloading ISE is possible otherwise. Reauthentication can also only be configured by as much as 65535s or 18 hours. Reauthentication also relies entirely on the clients supplicant being responsive and work *every* time. RADIUS accounting is configured as default from the cat9300 l3-switch which is 12h. Accounting is used by ISE to keep a session updated and active, it is also more lightweight and only relies on the switch to see an active session.
 
-### `session_subscribe.cp.py`
+### session_subscribe.cp.py
 When the above script is running with ~300 klients on a WIFI network, CPU-usage on the 1 vcpu server is practically 0%, memory usage is 0,7% on the same server with 4GB of RAM. Stats for an entire wired network with ~800 clients is coming.
 
-### `session_query_all.cp.py`
+### session_query_all.cp.py
 Is run by default every 8th hour by CRON. It collects by default the last 9 hours of created and updated sessions from ISE so that there is an overlap. This script actually keeps the identity sessions on the firewall active and extends the sessions timeout everytime it is run, unless a session is removed of course.
 
-### `session_query_reboot.cp.py`
+### session_query_reboot.cp.py
 The most CPU intensive script is `session_query_reboot.cp.py` which is supposed to be run at server startup or reboot. The script downloads the complete session database from ISE. This is so because it is unknown for how long the server reboots for or is stopped for maintenance or downtime. Typically run on the same server as above, CPU usage is ~21% and runs for ~4s as measured with the `time` command on Linux.
 
 ### Firewall reload
