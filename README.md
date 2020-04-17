@@ -27,6 +27,8 @@ cp-pxgrid is implemented using [Python](https://www.python.org/) and several Pyt
 
 [Cisco ISE](https://www.cisco.com/c/en/us/products/security/identity-services-engine/index.html) is configured with no reauthentication as recommended by Cisco, probably because overloading ISE is possible otherwise. Reauthentication can also only be configured by as much as 65535s or 18 hours. Reauthentication also relies entirely on the clients supplicant being responsive and work *every* time. RADIUS accounting is configured as default from the cat9300 l3-switch which is 12h. Accounting is used by ISE to keep a session updated and active, it is also more lightweight and only relies on the switch to see an active session.
 
+**Note:** This script is currently only for machine authentications as a different implementation works well for user authentications. This other implementation is working on supporting Cisco ISE 2.6, which I hope fixes machine authentications.
+
 ### session_subscribe.cp.py
 When the above script is running with ~300 klients on a WIFI network, CPU-usage on the 1 vcpu server is practically 0%, memory usage is 0,7% on the same server with 4GB of RAM. Stats for an entire wired network with ~800 clients is coming.
 
@@ -55,6 +57,10 @@ MQTT would maybe have been a better choice of message broker as it allows for bu
 
 ### Check Point
 Another shortcoming is Check Points Identity Awareness API, that it does not support a `session-timeout` of `0` to account for ISE by default not having a timeout on active sessions. There is a reason for this of course, and I can see that having `0` is practically unlimited. If there for some reason is no `DISCONNECT` that would clear that session, this could expend memory the firewall could use for its connection table instead.
+
+### Me
+I'm not a python programmer. I actually don't consider myself a programmer or developer at all. It has always been from necessity. Hence some code is probably unnecessary or could be moved to a function. I'm not sure `asyncio` is done right, because I simply don't know how I would test it.  
+All pull requests are welcome of course.
 
 ## pxGrid 'state' attribute
 While ISE Live Logs page provide events in real time, Live Sessions page can be used to view sessions that ISE is maintaining at given point in time. As noted in the ISE Live Logs section above, sessions are successful authentication event that ISE received RADIUS accounting Start for.  
