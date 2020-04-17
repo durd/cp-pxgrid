@@ -39,8 +39,8 @@ Is run by default every 8th hour by CRON. It collects by default the last 9 hour
 The most CPU intensive script is `session_query_reboot.cp.py` which is supposed to be run at server startup or reboot. The script downloads the complete session database from ISE. This is so because it is unknown for how long the server reboots for or is stopped for maintenance or downtime. Typically run on the same server as above, CPU usage is ~21% and runs for ~4s as measured with the `time` command on Linux.
 
 ### Firewall reload
-No consideration has actually been taken to the inevitablity of a firewall reloading. Even firewalls in active/active or active/standby configuration might die because of hardware failure, power outage or simple a bug in software.  
-Care should be taken run manually run `session_query_reboot.cp.py` to populate the firewalls identity session table.
+No consideration has actually been taken to the inevitablity of a firewall reloading. Even firewalls in active/active or active/standby configuration might die because of hardware failure, power outage or simply a bug in software.  
+Care should be taken to manually run `session_query_reboot.cp.py` to populate the firewalls identity session table. A simple reboot of a cp-pxgrid server could also be done.
 
 ### cp-pxgrid High Availablity
 Check Points Identity Awareness is so pragmatic that if the firewall receives multiple updates for the same identity, it simply extends the identity sessions timeout accordingly to the supplied `session-timeout` API attribute.  
