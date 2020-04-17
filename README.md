@@ -16,7 +16,7 @@
 - [pxGrid](#pxgrid-1)
 
 ## Overview
-cp-pxgrid is a client implementation of Cisco's [pxGrid](https://developer.cisco.com/docs/pxgrid/#!learning-pxgrid) Security Product Integration Framework (SPIF) that subscribes and reads from pxGrid and sends via API identity information to Check Point firewalls. This is done so that user or machine identities from Cisco ISE can be used in firewall rules using Check Point [Identity Awareness](https://www.checkpoint.com/products/identity-awareness/).
+cp-pxgrid is a client implementation of Cisco's [pxGrid](https://developer.cisco.com/docs/pxgrid/#!learning-pxgrid) Security Product Integration Framework (SPIF) that subscribes and reads from pxGrid and sends via [Identity Awareness API](https://sc1.checkpoint.com/documents/R80.30/WebAdminGuides/EN/CP_R80.30_IdentityAwareness_AdminGuide/html_frameset.htm?topic=documents/R80.30/WebAdminGuides/EN/CP_R80.30_IdentityAwareness_AdminGuide/151008) identity information to Check Point firewalls. This is done so that user or machine identities from Cisco ISE can be used in firewall rules using Check Point [Identity Awareness](https://www.checkpoint.com/products/identity-awareness/).
 
 pxGrid runs primarily on [Cisco ISE](https://www.cisco.com/c/en/us/products/security/identity-services-engine/index.html) but all manner of products can publish data to pxGrid that is then spread to other subscribers. pxGrid uses [STOMP](http://stomp.github.io/) as a message broker much like [MQTT](https://en.wikipedia.org/wiki/MQTT). [WebSockets](https://en.wikipedia.org/wiki/WebSocket) can be used to create an low-overhead communication channel for streaming STOMP data.
 
