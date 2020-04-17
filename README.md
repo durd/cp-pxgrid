@@ -27,7 +27,7 @@ cp-pxgrid is implemented using [Python](https://www.python.org/) and several Pyt
 
 [Cisco ISE](https://www.cisco.com/c/en/us/products/security/identity-services-engine/index.html) is configured with no reauthentication as recommended by Cisco, probably because overloading ISE is possible otherwise. Reauthentication can also only be configured by as much as 65535s or 18 hours. Reauthentication also relies entirely on the clients supplicant being responsive and work *every* time. RADIUS accounting is configured as default from the cat9300 l3-switch which is 12h. Accounting is used by ISE to keep a session updated and active, it is also more lightweight and only relies on the switch to see an active session.
 
-**Note:** This script is currently only for machine authentications as a different implementation works well for user authentications. This other implementation is working on supporting Cisco ISE 2.6, which I hope fixes machine authentications.
+**Note:** This script is currently only for machine authentications as a different implementation works well for user authentications. This other implementation is working on supporting Cisco ISE 2.6, which I hope fixes machine authentications. The script however is very easily extended to support user authentications, the code is half there already.
 
 ### session_subscribe.cp.py
 When the above script is running with ~300 klients on a WIFI network, CPU-usage on the 1 vcpu server is practically 0%, memory usage is 0,7% on the same server with 4GB of RAM. Stats for an entire wired network with ~800 clients is coming.
