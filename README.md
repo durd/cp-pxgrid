@@ -22,12 +22,18 @@ pxGrid runs primarily on [Cisco ISE](https://www.cisco.com/c/en/us/products/secu
 
 In the larger scheme of things, [Cisco ISE](https://www.cisco.com/c/en/us/products/security/identity-services-engine/index.html) is primarily used on networks implementing [802.1x](https://en.wikipedia.org/wiki/IEEE_802.1X) with [RADIUS](https://en.wikipedia.org/wiki/RADIUS) as the authentication, authorization and accounting protocol of choice.
 
+## Why?
+We were working on implementing an 802.1x-network, and using the logged in identities to be able to create firewall rules based on machine and username identities and in extension Active Directory groups and identities. Machine identities didn't work as intended after some time and we were told that pxGrid was sending out the wrong information.  
+I had noticed earlier that machine identities were used as usernames on the firewall instead of machine. I never thought anything about this as the feature worked as expected anyway. I asked Check Point what values from pxGrid they were matching against, so that I could get back to Cisco. I never got an answer to this. I finally was told that our Cisco ISE was a version they did not support, IDC supported ISE v2.4 and we had been on v2.6 for quite some time.
+
+Either way, I got tired of waiting on TAC, and remembering about [pxgrid-rest-ws](https://github.com/cisco-pxgrid/pxgrid-rest-ws) I preemptively started developing this project.
+
 ## Project implementation
 cp-pxgrid is implemented using [Python](https://www.python.org/) and several Python modules with the intent of creating an asynchronous (non-blocking) client in case a firewall is too slow to respond or that there is too much data coming from [pxGrid](https://developer.cisco.com/docs/pxgrid/#!learning-pxgrid).
 
 [Cisco ISE](https://www.cisco.com/c/en/us/products/security/identity-services-engine/index.html) is configured with no reauthentication as recommended by Cisco, probably because overloading ISE is possible otherwise. Reauthentication can also only be configured by as much as 65535s or 18 hours. Reauthentication also relies entirely on the clients supplicant being responsive and work *every* time. RADIUS accounting is configured as default from the cat9300 l3-switch which is 12h. Accounting is used by ISE to keep a session updated and active, it is also more lightweight and only relies on the switch to see an active session.
 
-**Note:** This script is currently only for machine authentications as a different implementation works well for user authentications. This other implementation is working on supporting Cisco ISE 2.6, which I hope fixes machine authentications. The script however is very easily extended to support user authentications, the code is half there already.
+**Note:** This script is currently only for machine authentications as Check Points Identity Collector works well for user authentications. Check Point is working on supporting Cisco ISE v2.6, which I hope fixes machine authentications. The script however is very easily extended to support user authentications, the code is half there already. Even better, it can also run on Linux.
 
 ### session_subscribe.cp.py
 When the above script is running with ~300 klients on a WIFI network, CPU-usage on the 1 vcpu server is practically 0%, memory usage is 0,7% on the same server with 4GB of RAM. Stats for an entire wired network with ~800 clients is coming.
