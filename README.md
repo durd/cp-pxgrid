@@ -1,6 +1,7 @@
 # cp-pxgrid
 - [cp-pxgrid](#cp-pxgrid)
   * [Overview](#overview)
+  * [Why?](#why)
   * [Project implementation](#project-implementation)
     + [session_subscribe.cp.py](#session_subscribecppy)
     + [session_query_all.cp.py](#session_query_allcppy)
