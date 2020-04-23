@@ -158,7 +158,7 @@ async def query(config, secret, url, payload):
                                 log.exception('')
                                 continue
                 else:
-                    if "SR_AP" not in obj["ctsSecurityGroup"]: log.warning(f'no isMachineAuthentication in: {json.dumps(obj)}')
+                    log.warning(f'no isMachineAuthentication or STARTED in: {json.dumps(obj)}')
             except Exception:
                 log.exception('')
                 continue
