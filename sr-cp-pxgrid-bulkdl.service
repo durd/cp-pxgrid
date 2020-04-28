@@ -1,0 +1,12 @@
+[Unit]
+Description=pxGrid <-> Checkpoint service that downloads last X hours of DB-changes
+After=network-online.target
+After=cp-pxgrid.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=cp-pxgrid
+WorkingDirectory=/usr/local/cp-pxgrid
+ExecStart=/usr/bin/python3 /usr/local/cp-pxgrid/session_query_all.cp.py -a <ISE node #1> -a <ISE node #2> -n <name of server running this> -c <path to client certificate from ISE> -k <path to client key from ISE> -s <path to ISE certificate from ISE>
+Restart=no

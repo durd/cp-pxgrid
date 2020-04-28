@@ -1,0 +1,15 @@
+[Unit]
+Description=pxGrid <-> Checkpoint service
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=cp-pxgrid
+WorkingDirectory=/usr/local/cp-pxgrid
+ExecStart=/usr/bin/python3 /usr/local/cp-pxgrid/session_subscribe.cp.py -a <ISE node #1> -a <ISE node #2> -n <name of server running this> -c <path to client certificate from ISE> -k <path to client key from ISE> -s <path to ISE certificate from ISE>
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
