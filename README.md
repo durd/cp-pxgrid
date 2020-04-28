@@ -32,7 +32,7 @@ In the larger scheme of things, [Cisco ISE](https://www.cisco.com/c/en/us/produc
 It's almost simple, lots of steps though. All this on a fresh Debian 10.3.
 * [Generate](https://github.com/durd/cp-pxgrid/wiki/To-Generate-pxGrid-Certificates-from-ISE) your pxGrid certificate from ISE. **Important!**
 * `scp` the zip-file to your server.
-```
+```console
 ~ $ unzip <zip-file> -d pxgrid-cert
 ~ $ git clone https://github.com/durd/cp-pxgrid.git
 ~ $ cd cp-pxgrid
@@ -51,7 +51,7 @@ cp-pxgrid $ cd /usr/local/cp-pxgrid/
 /usr/local/cp-pxgrid/pxgrid-cert $ cd ..
 ```
 Before proceeding, make sure you have added your host to your Checkpoints gateways allowed hosts for Identity Web API and saved the PSK. Also make sure you allow traffic to the gate. What's it called properly??????
-```
+```console
 /usr/local/cp-pxgrid $ cp gwconfig.py.example gwconfig.py
 # Open gwconfig.py with your favourite editor.
 # Add the HA/VIP-address of your gateway and PSK for it and save and exit the editor
@@ -64,7 +64,7 @@ cp-pxgrid $ cp *.service *.timer /etc/systemd/system/
 cp-pxgrid $ systemctl enable cp-pxgrid-bulkdl-reboot.service cp-pxgrid.service cp-pxgrid-bulkdl.timer
 ```
 If the information in the `.service`-files, the IP of the gate and its PSK are correct then:
-```
+```console
 cp-pxgrid $ systemctl start cp-pxgrid.service cp-pxgrid-bulkdl.timer
 ```
 You should start seeing output in `/var/log/cp-pxgrid.log`
