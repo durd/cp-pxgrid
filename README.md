@@ -41,7 +41,7 @@ cp-pxgrid is implemented using [Python](https://www.python.org/) and several Pyt
 When the above script is running with ~300 klients on a WIFI network, CPU-usage on the 1 vcpu server is practically 0%, memory usage is 0,7% on the same server with 4GB of RAM. Stats for an entire wired network with ~800 clients is coming.
 
 ### session_query_all.cp.py
-Is run by default every 8th hour by CRON. It collects by default the last 9 hours of created and updated sessions from ISE so that there is an overlap. This script actually keeps the identity sessions on the firewall active and extends the sessions timeout everytime it is run, unless a session is removed of course.
+Should be run *within* the configured `fetchhours` in gwconfig.py by either CRON or the supplied systemd timer. It collects and injects the created and updated sessions from ISE, so that there is an overlap against `fetchhours`. This script actually keeps the identity sessions on the firewall active and extends the sessions timeout everytime it is run, unless a session is removed of course.
 
 ### session_query_reboot.cp.py
 The most CPU intensive script is `session_query_reboot.cp.py` which is supposed to be run at server startup or reboot. The script downloads the complete session database from ISE. This is so because it is unknown for how long the server reboots for or is stopped for maintenance or downtime. Typically run on the same server as above, CPU usage is ~21% and runs for ~4s as measured with the `time` command on Linux.
@@ -96,7 +96,7 @@ ISE received RADIUS accounting stop. Terminated session will be removed from the
 Terminated session. Our own addition to the list. Works with Terminated.
 
 # Credit
-This project relies very heavily on Cisco's example project of a pxGrid v2.0 client [pxgrid-rest-ws](https://github.com/cisco-pxgrid/pxgrid-rest-ws). Everything below is from the original README of Cisco's repo. THe latest version is of course available at Cisco's repo above.  
+This project relies very heavily on Cisco's example project of a pxGrid v2.0 client [pxgrid-rest-ws](https://github.com/cisco-pxgrid/pxgrid-rest-ws). Everything below is from the original README of Cisco's repo. The latest version is of course available at Cisco's repo above.  
 It was fun learning about Git more properly and actually using Python for real for once. Python did get on my nerves a few times regarding data types and variable references. But all was figured out, probably not remembered but why else would Google and StackOverflow exist?
 
 # pxGrid

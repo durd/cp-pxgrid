@@ -4,12 +4,12 @@ gws = {
 
 # seconds, cant be lower than 300s as CP will not accept it.
 # default on gw is 12h (43200s)
-# should probably be longer than "fetchhours" below, so sessions do not timeout
+# should be longer than "fetchhours" below, so sessions do not timeout
 # before they are fetched by bulk.
 gwtimeout = 43200
 
 # hours, used to bulk-dl sessions from ISE that have been created or updated
 # in the specified timeframe below.
 # Make sure to run session_query_all.cp.py within this timeframe.
-# Also make sure ISE has cpu to spare, cpu-utilisation is currently unknown.
+# Also make sure ISE has cpu to spare, cpu-utilisation is currently somewhat unknown.
 fetchhours = 3
