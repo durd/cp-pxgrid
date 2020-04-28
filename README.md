@@ -13,7 +13,6 @@
     + [pxGrid](#pxgrid)
     + [Check Point](#check-point)
     + [Me](#me)
-  * [pxGrid 'state' attribute](pxGrid-'state'-attribute)
 - [Credit](#credit)
 - [pxGrid](#pxgrid-1)
 
