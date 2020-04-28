@@ -29,7 +29,7 @@ In the larger scheme of things, [Cisco ISE](https://www.cisco.com/c/en/us/produc
 * Python 3.6 or later
 * Python module requirements via `pip3`
 
-It's almost simple, lots of steps though. All this on a fresh Debian 10.3.
+It's almost simple, lots of steps though. All this on a Debian 10.3.
 * [Generate](https://github.com/durd/cp-pxgrid/wiki/To-Generate-pxGrid-Certificates-from-ISE) your pxGrid certificate from ISE. **Important!**
 * `scp` the zip-file to your server.
 ```console
