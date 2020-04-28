@@ -9,4 +9,3 @@ Unit=cp-pxgrid-bulkdl.service
 
 [Install]
 WantedBy=multi-user.target
- 
