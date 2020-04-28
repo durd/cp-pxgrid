@@ -73,7 +73,7 @@ If the information in the `.service`-files, the IP of the gate and its PSK are c
 user@host:~/cp-pxgrid$ systemctl start cp-pxgrid.service cp-pxgrid-bulkdl.timer
 ```
 You should start seeing output in `/var/log/cp-pxgrid.log`  
-Look for errors in `systemctl status <service>` if need be.
+Look for errors in `systemctl status <service>` or in `/var/log/syslog` if need be.
 
 ## Why?
 We were working on implementing an 802.1x-network, and using the logged in identities to be able to create firewall rules based on machine and username identities and in extension Active Directory groups and identities. Machine identities didn't work as intended after some time and we were told that pxGrid was sending out the wrong information.  
