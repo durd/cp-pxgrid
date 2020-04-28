@@ -33,6 +33,7 @@ It's almost simple, lots of steps though. All this on a fresh Debian 10.3.
 * [Generate](https://github.com/durd/cp-pxgrid/wiki/To-Generate-pxGrid-Certificates-from-ISE) your pxGrid certificate from ISE. **Important!**
 * `scp` the zip-file to your server.
 ```console
+user@host:~$ apt-get install unzip python3-venv python3-pip
 user@host:~$ unzip <zip-file> -d pxgrid-cert
 user@host:~$ git clone https://github.com/durd/cp-pxgrid.git
 user@host:~$ cd cp-pxgrid
@@ -55,7 +56,7 @@ Before proceeding, make sure you have added your host to your Checkpoints gatewa
 ```console
 user@host:/usr/local/cp-pxgrid$ cp gwconfig.py.example gwconfig.py
 ```
-Open gwconfig.py with your favourite editor. Add the HA/VIP-address of your gateway (the IP in the gw object in SmartConsole) and PSK for it and save and exit the editor
+Open gwconfig.py with your favourite editor. Add the HA/VIP-address of your gateway (the IP in the gw object in SmartConsole) and PSK for it, save and exit the editor
 ```console
 user@host:/usr/local/cp-pxgrid/pxgrid-cert$ cd ~/cp-pxgrid
 user@host:~/cp-pxgrid$ cp cp-pxgrid.logrotate /etc/logrotate.d/cp-pxgrid
