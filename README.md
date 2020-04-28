@@ -33,39 +33,39 @@ It's almost simple, lots of steps though. All this on a fresh Debian 10.3.
 * [Generate](https://github.com/durd/cp-pxgrid/wiki/To-Generate-pxGrid-Certificates-from-ISE) your pxGrid certificate from ISE. **Important!**
 * `scp` the zip-file to your server.
 ```console
-user@host:~ $ unzip <zip-file> -d pxgrid-cert
-user@host:~ $ git clone https://github.com/durd/cp-pxgrid.git
-user@host:~ $ cd cp-pxgrid
-user@host:cp-pxgrid $ pip3 install -r requirements
-user@host:cp-pxgrid $ mkdir /usr/local/cp-pxgrid
-user@host:cp-pxgrid $ cp python/ /usr/local/cp-pxgrid/
-user@host:cp-pxgrid $ cd /usr/local/cp-pxgrid/
-user@host:/usr/local/cp-pxgrid $ cp ~/pxgrid-cert .
-user@host:/usr/local/cp-pxgrid $ cd pxgrid-cert
+user@host:~$ unzip <zip-file> -d pxgrid-cert
+user@host:~$ git clone https://github.com/durd/cp-pxgrid.git
+user@host:~$ cd cp-pxgrid
+user@host:~/cp-pxgrid$ pip3 install -r requirements
+user@host:~/cp-pxgrid$ mkdir /usr/local/cp-pxgrid
+user@host:~/cp-pxgrid$ cp python/ /usr/local/cp-pxgrid/
+user@host:~/cp-pxgrid$ cd /usr/local/cp-pxgrid/
+user@host:/usr/local/cp-pxgrid$ cp ~/pxgrid-cert .
+user@host:/usr/local/cp-pxgrid$ cd pxgrid-cert
 # This will remove the password you set in ISE, so that we can run the script as a daemon/service.
 # The other option is to have the password in plain text in the service. Not much better.
-user@host:/usr/local/cp-pxgrid/pxgrid-cert $ openssl rsa -in <private key> -out <private key.1>
-user@host:/usr/local/cp-pxgrid/pxgrid-cert $ rm <private key>
-user@host:/usr/local/cp-pxgrid/pxgrid-cert $ mv <private key>.1 <private key>
-user@host:/usr/local/cp-pxgrid/pxgrid-cert $ chmod 644 <private key>
-user@host:/usr/local/cp-pxgrid/pxgrid-cert $ cd ..
+user@host:/usr/local/cp-pxgrid/pxgrid-cert$ openssl rsa -in <private key> -out <private key.1>
+user@host:/usr/local/cp-pxgrid/pxgrid-cert$ rm <private key>
+user@host:/usr/local/cp-pxgrid/pxgrid-cert$ mv <private key>.1 <private key>
+user@host:/usr/local/cp-pxgrid/pxgrid-cert$ chmod 644 <private key>
+user@host:/usr/local/cp-pxgrid/pxgrid-cert$ cd ..
 ```
 Before proceeding, make sure you have added your host to your Checkpoints gateways allowed hosts for Identity Web API and saved the PSK. Also make sure you allow traffic to the gate. What's it called properly??????
 ```console
-user@host:/usr/local/cp-pxgrid $ cp gwconfig.py.example gwconfig.py
+user@host:/usr/local/cp-pxgrid$ cp gwconfig.py.example gwconfig.py
 # Open gwconfig.py with your favourite editor.
 # Add the HA/VIP-address of your gateway and PSK for it and save and exit the editor
-user@host:/usr/local/cp-pxgrid/pxgrid-cert $ cd ~/cp-pxgrid
-user@host:cp-pxgrid $ cp cp-pxgrid.logrotate /etc/logrotate.d/cp-pxgrid
-user@host:cp-pxgrid $ cp cp-pxgrid.rsyslogd.conf /etc/rsyslog.d/cp-pxgrid.conf
+user@host:/usr/local/cp-pxgrid/pxgrid-cert$ cd ~/cp-pxgrid
+user@host:~/cp-pxgrid$ cp cp-pxgrid.logrotate /etc/logrotate.d/cp-pxgrid
+user@host:~/cp-pxgrid$ cp cp-pxgrid.rsyslogd.conf /etc/rsyslog.d/cp-pxgrid.conf
 # Edit all *.service files to fit your setup regarding ISE hostnames, nodenames, paths, and filenames of certificates and keys.
 # The `.timer` file references a `.service` file, make sure it still corresponds! # Else the bulkdl-script will not execute and sessions will time out on the firewall.
-user@host:cp-pxgrid $ cp *.service *.timer /etc/systemd/system/
-user@host:cp-pxgrid $ systemctl enable cp-pxgrid-bulkdl-reboot.service cp-pxgrid.service cp-pxgrid-bulkdl.timer
+user@host:~/cp-pxgrid$ cp *.service *.timer /etc/systemd/system/
+user@host:~/cp-pxgrid$ systemctl enable cp-pxgrid-bulkdl-reboot.service cp-pxgrid.service cp-pxgrid-bulkdl.timer
 ```
 If the information in the `.service`-files, the IP of the gate and its PSK are correct then:
 ```console
-user@host:cp-pxgrid $ systemctl start cp-pxgrid.service cp-pxgrid-bulkdl.timer
+user@host:~/cp-pxgrid$ systemctl start cp-pxgrid.service cp-pxgrid-bulkdl.timer
 ```
 You should start seeing output in `/var/log/cp-pxgrid.log`
 
