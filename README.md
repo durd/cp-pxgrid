@@ -33,13 +33,13 @@ It's almost simple, lots of steps though. All this on a fresh Debian 10.3.
 * [Generate](https://github.com/durd/cp-pxgrid/wiki/To-Generate-pxGrid-Certificates-from-ISE) your pxGrid certificate from ISE. **Important!**
 * `scp` the zip-file to your server.
 ```console
-user@host:~$ unzip <zip-file> -d pxgrid-cert
-user@host:~$ git clone https://github.com/durd/cp-pxgrid.git
-user@host:~$ cd cp-pxgrid
-cp-pxgrid $ pip3 install -r requirements
-cp-pxgrid $ mkdir /usr/local/cp-pxgrid
-cp-pxgrid $ cp python/ /usr/local/cp-pxgrid/
-cp-pxgrid $ cd /usr/local/cp-pxgrid/
+user@host:~ $ unzip <zip-file> -d pxgrid-cert
+user@host:~ $ git clone https://github.com/durd/cp-pxgrid.git
+user@host:~ $ cd cp-pxgrid
+user@host:cp-pxgrid $ pip3 install -r requirements
+user@host:cp-pxgrid $ mkdir /usr/local/cp-pxgrid
+user@host:cp-pxgrid $ cp python/ /usr/local/cp-pxgrid/
+user@host:cp-pxgrid $ cd /usr/local/cp-pxgrid/
 user@host:/usr/local/cp-pxgrid $ cp ~/pxgrid-cert .
 user@host:/usr/local/cp-pxgrid $ cd pxgrid-cert
 # This will remove the password you set in ISE, so that we can run the script as a daemon/service.
@@ -65,7 +65,7 @@ user@host:cp-pxgrid $ systemctl enable cp-pxgrid-bulkdl-reboot.service cp-pxgrid
 ```
 If the information in the `.service`-files, the IP of the gate and its PSK are correct then:
 ```console
-cp-pxgrid $ systemctl start cp-pxgrid.service cp-pxgrid-bulkdl.timer
+user@host:cp-pxgrid $ systemctl start cp-pxgrid.service cp-pxgrid-bulkdl.timer
 ```
 You should start seeing output in `/var/log/cp-pxgrid.log`
 
