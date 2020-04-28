@@ -43,7 +43,7 @@ user@host:~/cp-pxgrid$ cd /usr/local/cp-pxgrid/
 user@host:/usr/local/cp-pxgrid$ cp ~/pxgrid-cert .
 user@host:/usr/local/cp-pxgrid$ cd pxgrid-cert
 ```
-This will remove the password you set in ISE, so that we can run the script as a daemon/service. The other option is to have the password in plain text in the service. Not much better.
+This will remove the password you set in ISE, so that we can run the script as a daemon/service. The other option is to have the password in plain text in the service-files. Not much better.
 ```console
 user@host:/usr/local/cp-pxgrid/pxgrid-cert$ openssl rsa -in <private key> -out <private key.1>
 user@host:/usr/local/cp-pxgrid/pxgrid-cert$ rm <private key>
@@ -55,7 +55,7 @@ Before proceeding, make sure you have added your host to your Checkpoints gatewa
 ```console
 user@host:/usr/local/cp-pxgrid$ cp gwconfig.py.example gwconfig.py
 ```
-Open gwconfig.py with your favourite editor. Add the HA/VIP-address of your gateway and PSK for it and save and exit the editor
+Open gwconfig.py with your favourite editor. Add the HA/VIP-address of your gateway (the IP in the gw object in SmartConsole) and PSK for it and save and exit the editor
 ```console
 user@host:/usr/local/cp-pxgrid/pxgrid-cert$ cd ~/cp-pxgrid
 user@host:~/cp-pxgrid$ cp cp-pxgrid.logrotate /etc/logrotate.d/cp-pxgrid
