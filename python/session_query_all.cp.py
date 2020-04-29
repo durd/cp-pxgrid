@@ -79,16 +79,17 @@ async def query(config, secret, url, payload):
                                     continue
                                 tasks = []
                                 for gw, psk in cfg.gws.items():
-                                    cp_ident_add["shared-secret"] = psk
-                                    task = asyncio.create_task(cpia_add(gw, cp_ident_add))
+                                    task = asyncio.create_task(cpia_add(gw, psk, cp_ident_add))
                                     tasks.append(task)
                                     log.info(f'{cp_ident_add["machine"]} {obj["state"]} {cp_ident_add["machine-groups"]} {cp_ident_add["ip-address"]} sent to {gw}')
                                 responses = await asyncio.gather(*tasks)
-                                responses = json.loads(responses[0])
-                                if "ipv4-address" in responses:
-                                    log.info(f'Response: {responses["ipv4-address"]} {responses["message"]}')
-                                elif "ipv6-address" in responses:
-                                    log.info(f'Response: {responses["ipv6-address"]} {responses["message"]}')
+                                for task in responses:
+                                    for gw, resp in task.items():
+                                        resp = json.loads(resp)
+                                    if "ipv4-address" in resp:
+                                        log.info(f'Response from {gw}: {resp["ipv4-address"]} {resp["message"]}')
+                                    elif "ipv6-address" in resp:
+                                        log.info(f'Response from {gw}: {resp["ipv6-address"]} {resp["message"]}')
                                 del cp_ident_add
                             except Exception:
                                 log.exception('')
@@ -140,18 +141,20 @@ async def query(config, secret, url, payload):
                                     continue
                                 tasks = []
                                 for gw, psk in cfg.gws.items():
-                                    cp_ident_del["shared-secret"] = psk
-                                    task = asyncio.create_task(cpia_del(gw, cp_ident_del))
+                                    task = asyncio.create_task(cpia_del(gw, psk, cp_ident_del))
                                     tasks.append(task)
+                                    log.info(f'{obj["adHostSamAccountName"]} {obj["state"]} {ip} sent to {gw}')
                                 responses = await asyncio.gather(*tasks)
-                                responses = json.loads(responses[0])
-                                if ("count" in responses) and (responses["count"] == "1"):
-                                    if "ipv4-address" in responses:
-                                        log.info(f'Response: {responses["ipv4-address"]} {responses["message"]}')
-                                    elif "ipv6-address" in responses:
-                                        log.info(f'Response: {responses["ipv6-address"]} {responses["message"]}')
-                                elif ("count" in responses) and (responses["count"] == "0"):
-                                    log.info(f'Response: {responses["message"]}')
+                                for task in responses:
+                                    for gw, resp in task.items():
+                                        resp = json.loads(resp)
+                                    if ("count" in resp) and (resp["count"] == "1"):
+                                        if "ipv4-address" in resp:
+                                            log.info(f'Response from {gw}: {resp["ipv4-address"]} {resp["message"]}')
+                                        elif "ipv6-address" in resp:
+                                            log.info(f'Response from {gw}: {resp["ipv6-address"]} {resp["message"]}')
+                                    elif ("count" in resp) and (resp["count"] == "0"):
+                                        log.info(f'Response from {gw}: {resp["message"]}')
                                 del cp_ident_del
                             except Exception:
                                 log.exception('')
