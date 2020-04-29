@@ -3,7 +3,6 @@ Description=Runs cp-pxgrid-bulkdl every X hours
 
 [Timer]
 AccuracySec=1s
-OnBootSec=0min
 OnCalendar=00/8:05:0
 Unit=cp-pxgrid-bulkdl.service
 

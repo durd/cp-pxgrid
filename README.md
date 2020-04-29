@@ -1,6 +1,7 @@
 # cp-pxgrid
 - [cp-pxgrid](#cp-pxgrid)
   * [Overview](#overview)
+  * [Installation](#Installation)
   * [Why?](#why)
   * [Project implementation](#project-implementation)
     + [session_subscribe.cp.py](#session_subscribecppy)
@@ -22,6 +23,57 @@ cp-pxgrid is a client implementation of Cisco's [pxGrid](https://developer.cisco
 pxGrid runs primarily on [Cisco ISE](https://www.cisco.com/c/en/us/products/security/identity-services-engine/index.html) but all manner of products can publish data to pxGrid that is then spread to other subscribers. pxGrid uses [STOMP](http://stomp.github.io/) as a message broker much like [MQTT](https://en.wikipedia.org/wiki/MQTT). [WebSockets](https://en.wikipedia.org/wiki/WebSocket) can be used to create an low-overhead communication channel for streaming STOMP data.
 
 In the larger scheme of things, [Cisco ISE](https://www.cisco.com/c/en/us/products/security/identity-services-engine/index.html) is primarily used on networks implementing [802.1x](https://en.wikipedia.org/wiki/IEEE_802.1X) with [RADIUS](https://en.wikipedia.org/wiki/RADIUS) as the authentication, authorization and accounting protocol of choice.
+
+## Installation
+### Requirements
+* Python 3.6 or later
+* Python module requirements via `pip3`
+
+It's almost simple, lots of steps though. All this on a Debian 10.3.
+* [Generate](https://github.com/durd/cp-pxgrid/wiki/To-Generate-pxGrid-Certificates-from-ISE) your pxGrid certificate from ISE. **Important!**
+* `scp` the zip-file to your server.
+```console
+user@host:~$ apt-get install unzip python3-venv python3-pip
+user@host:~$ unzip <zip-file> -d pxgrid-cert
+user@host:~$ git clone https://github.com/durd/cp-pxgrid.git
+user@host:~$ cd cp-pxgrid
+user@host:~/cp-pxgrid$ pip3 install -r requirements
+user@host:~/cp-pxgrid$ mkdir /usr/local/cp-pxgrid
+user@host:~/cp-pxgrid$ cp python/ /usr/local/cp-pxgrid/
+user@host:~/cp-pxgrid$ cd /usr/local/cp-pxgrid/
+user@host:/usr/local/cp-pxgrid$ cp ~/pxgrid-cert .
+user@host:/usr/local/cp-pxgrid$ cd pxgrid-cert
+```
+This will remove the password you set in ISE, so that we can run the script as a daemon/service. The other option is to have the password in plain text in the service-files. Not much better.
+```console
+user@host:/usr/local/cp-pxgrid/pxgrid-cert$ openssl rsa -in <private key> -out <private key>.1
+user@host:/usr/local/cp-pxgrid/pxgrid-cert$ rm <private key>
+user@host:/usr/local/cp-pxgrid/pxgrid-cert$ mv <private key>.1 <private key>
+user@host:/usr/local/cp-pxgrid/pxgrid-cert$ chmod 644 <private key>
+user@host:/usr/local/cp-pxgrid/pxgrid-cert$ cd ..
+```
+Before proceeding, make sure you have added your host to your Checkpoints gateways list of allowed hosts for Identity Web API and saved the PSK. Also make sure you allow traffic to the gate by selecting an appropiate setting in `Client Access Permissions` for your setup.
+```console
+user@host:/usr/local/cp-pxgrid$ cp gwconfig.py.example gwconfig.py
+```
+Open gwconfig.py with your favourite editor. Add the HA/VIP-address of your gateway (the IP in the gw object in SmartConsole) and PSK for it, save and exit the editor
+```console
+user@host:/usr/local/cp-pxgrid/pxgrid-cert$ cd ~/cp-pxgrid
+user@host:~/cp-pxgrid$ cp cp-pxgrid.logrotate /etc/logrotate.d/cp-pxgrid
+user@host:~/cp-pxgrid$ cp cp-pxgrid.rsyslogd.conf /etc/rsyslog.d/cp-pxgrid.conf
+user@host:~/cp-pxgrid$ systemctl restart rsyslog
+```
+Edit all `*.service` files to fit your setup regarding ISE hostnames, nodenames, paths, and filenames of certificates and keys. The `.timer` file references a `.service` file, make sure it still corresponds! Else the bulkdl-script will not execute and sessions will time out on the firewall.
+```console
+user@host:~/cp-pxgrid$ cp *.service *.timer /etc/systemd/system/
+user@host:~/cp-pxgrid$ systemctl enable cp-pxgrid-bulkdl-reboot.service cp-pxgrid.service cp-pxgrid-bulkdl.timer
+```
+If the information in the `.service`-files, the IP of the gate and its PSK are correct then:
+```console
+user@host:~/cp-pxgrid$ systemctl start cp-pxgrid.service cp-pxgrid-bulkdl.timer
+```
+You should start seeing output in `/var/log/cp-pxgrid.log`  
+Look for errors in `systemctl status <service>` or in `/var/log/syslog` if need be.
 
 ## Why?
 We were working on implementing an 802.1x-network, and using the logged in identities to be able to create firewall rules based on machine and username identities and in extension Active Directory groups and identities. Machine identities didn't work as intended after some time and we were told that pxGrid was sending out the wrong information.  
