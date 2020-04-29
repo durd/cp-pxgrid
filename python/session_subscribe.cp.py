@@ -158,7 +158,6 @@ async def subscribe_loop(config, secret, ws_url, topic):
                                             continue
                                         tasks = []
                                         for gw, psk in cfg.gws.items():
-                                            cp_ident_del["shared-secret"] = psk
                                             task = asyncio.create_task(cpia_del(gw, psk, cp_ident_del))
                                             tasks.append(task)
                                         responses = await asyncio.gather(*tasks)
