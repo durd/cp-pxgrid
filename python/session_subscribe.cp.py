@@ -98,8 +98,7 @@ async def subscribe_loop(config, secret, ws_url, topic):
                                             continue
                                         tasks = []
                                         for gw, psk in cfg.gws.items():
-                                            cp_ident_add["shared-secret"] = psk
-                                            task = asyncio.create_task(cpia_add(gw, cp_ident_add))
+                                            task = asyncio.create_task(cpia_add(gw, psk, cp_ident_add))
                                             tasks.append(task)
                                             log.info(f'{cp_ident_add["machine"]} {obj["state"]} {cp_ident_add["machine-groups"]} {cp_ident_add["ip-address"]} sent to {gw}')
                                         responses = await asyncio.gather(*tasks)
@@ -160,7 +159,7 @@ async def subscribe_loop(config, secret, ws_url, topic):
                                         tasks = []
                                         for gw, psk in cfg.gws.items():
                                             cp_ident_del["shared-secret"] = psk
-                                            task = asyncio.create_task(cpia_del(gw, cp_ident_del))
+                                            task = asyncio.create_task(cpia_del(gw, psk, cp_ident_del))
                                             tasks.append(task)
                                         responses = await asyncio.gather(*tasks)
                                         responses = json.loads(responses[0])
