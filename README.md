@@ -52,7 +52,7 @@ user@host:/usr/local/cp-pxgrid/pxgrid-cert$ mv <private key>.1 <private key>
 user@host:/usr/local/cp-pxgrid/pxgrid-cert$ chmod 644 <private key>
 user@host:/usr/local/cp-pxgrid/pxgrid-cert$ cd ..
 ```
-Before proceeding, make sure you have added your host to your Checkpoints gateways list of allowed hosts for Identity Web API and saved the PSK. Also make sure you allow traffic to the gate. What's it called properly??????
+Before proceeding, make sure you have added your host to your Checkpoints gateways list of allowed hosts for Identity Web API and saved the PSK. Also make sure you allow traffic to the gate by selecting an appropiate setting in `Client Access Permissions` for your setup.
 ```console
 user@host:/usr/local/cp-pxgrid$ cp gwconfig.py.example gwconfig.py
 ```
