@@ -19,7 +19,8 @@
   "identitySourcePortFirst": 0
   "identitySourcePortStart": 0
   "ipAddresses": [
-    "10.10.10.10"
+    "10.10.10.10",
+    "",
     "fe80::0000:1111:2222:3333"
   ]
   "isMachineAuthentication": "true"
